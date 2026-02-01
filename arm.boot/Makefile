@@ -12,7 +12,8 @@ BOARD=versatile
 MEMSIZE=16
 
 # Object files to build and link together
-objs= exception.o startup.o main.o uart.o
+objs = exception.o startup.o main.o uart.o kprintf.o console.o
+
 
 #======================================================================
 # GENERIC PART OF THE MAKEFILE BELOW
@@ -28,7 +29,7 @@ ifeq ($(BOARD),versatile)
   # A few QEMU options
   VGA=-nographic
   SERIAL=-serial mon:stdio  
-  MEMORY="$(MEM	SIZE)K"  
+  MEMORY="$(MEMSIZE)K"  
   MACHINE=versatilepb
 	# set compiler flags
   CFLAGS= -mcpu=$(GCPU) -DCPU=$(QCPU) -D$(CPU) -DMEMORY="($(MEMSIZE)*1024)"
