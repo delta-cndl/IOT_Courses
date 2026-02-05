@@ -1,5 +1,4 @@
-build/versatile/console.o: console.c console.h kprintf.c main.h uart.h
+build/versatile/console.o: console.c console.h uart.h kprintf.h
 console.h:
-kprintf.c:
-main.h:
 uart.h:
+kprintf.h:

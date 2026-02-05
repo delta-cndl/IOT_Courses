@@ -1,6 +1,6 @@
 #include "console.h"
-//#include "uart.h"
-#include "kprintf.c"
+  #include "uart.h"
+#include "kprintf.h"
 
 
 #define ESC "\033" // equal to 27 in decimal
@@ -12,7 +12,6 @@ static char line_buffer[256];
 static int line_len = 0;
 
 static void (*line_callback)(char*) = 0;
-
 /* -------------------------------------------------- */
 /* Cursor control                                     */
 /* -------------------------------------------------- */

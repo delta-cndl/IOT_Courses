@@ -1,6 +1,8 @@
 #ifndef _UART_H_ 
 #define _UART_H_ 
 
+#include <stdint.h>
+
 /**
  * Look at the document describing the Versatile Application Board:
  *
@@ -37,6 +39,5 @@ void uart_send(void* uart, uint8_t b);
  * the characters are 8-bit ASCII characters.
  */
 void uart_send_string(void* uart, const unsigned char *s);
-
 
 #endif /* _UART_H_ */

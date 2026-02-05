@@ -63,4 +63,5 @@ void uart_send_string(void* uart, const unsigned char *s) {
     uart_send(uart, (uint8_t)*s);
     s++;
   }
+
 }

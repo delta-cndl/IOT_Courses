@@ -26,7 +26,7 @@ SECTIONS
    * Look at the startup code to see how memory is reset to zero
    * between _bss_start and _bss_end
    * NOTA BENE: 
-   *   we zero 16 bytes at a time (look at the code in startup.s
+   *   we zero 16 bytes at a time (look at the code in startup.s)
    *   so we align this section on 16-byte boundaries, both the start
    *   and end.
    */ 
@@ -50,5 +50,7 @@ SECTIONS
  . = ALIGN(8);
  . = . + 0x1000; /* 4KB of stack memory */
  stack_top = .;
- 
+. = ALIGN(8);
+. = . + 0x1000;     /* 4KB for IRQ stack */
+irq_stack_top = .;
 }
