@@ -30,6 +30,7 @@
 #define UART_RXFE (1<<4)
 #define UART_BUSY (1<<3)
 
+
 /*
  * See "uart.h"
  */
@@ -63,5 +64,16 @@ void uart_send_string(void* uart, const unsigned char *s) {
     uart_send(uart, (uint8_t)*s);
     s++;
   }
+
+
+  void uart_enable_rx_interrupt(void* uart) {
+    volatile uint32_t *u = (volatile uint32_t*)uart;
+
+    // clear pending RX interrupts
+    u[UART_ICR / 4] = UART_IMSC_RX;
+
+    // enable RX interrupt
+    u[UART_IMSC / 4] |= UART_IMSC_RX;
+}
 
 }

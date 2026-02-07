@@ -30,7 +30,9 @@ void wait(){
  * in assembly language, see the startup.s file.
  */
 
-// //## Version1 : UART en polling
+/* -------------------------------------------------- */
+/* ## Version1 : UART en polling                      */
+/* -------------------------------------------------- */
 
 // void _start() {
 
@@ -64,7 +66,10 @@ void wait(){
 //   }
 // }
 
-// //## Version2  : UART en polling et affichage des codes ASCII
+
+/* --------------------------------------------------------------------*/
+/* ## Version2  : UART en polling et affichage des codes ASCII         */
+/* ------------------------------------------------------------------- */
 // void _start() {
 
 //   int i = 0;
@@ -77,7 +82,10 @@ void wait(){
 //    }
 // }
 
-// ## version3 : Console avec gestion  des entrées
+
+/* -------------------------------------------------- */
+/* ## version3 : Console avec gestion  des entrées    */
+/* -------------------------------------------------- */
 
 // void dummy_callback(char* line) {
 //     // nothing to do here for now
@@ -96,12 +104,17 @@ void wait(){
 //     }
 // }
 
-//## version4: introduction des interruptions(IRQ)
+/* ------------------------------------------------------------ */
+/* ## version4: introduction des interruptions(IRQ)             */
+/* ------------------------------------------------------------ */
 
 void uart_callback(uint32_t irq, void* cookie) {
     uint8_t c;
-    if (uart_receive(UART0, &c))
+    if (uart_receive(UART0, &c)){
+        uart_send(UART0, '#');
         console_echo(c);
+    }
+         
 }
 
 void _start() {

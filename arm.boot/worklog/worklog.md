@@ -89,6 +89,7 @@ Dans le module console.c , on gére la console et le cursuer:
 
 - Caractères ASCII imprimables (32–126) : ajout dans le buffer de ligne et affichage à l’écran.
 
+==> bugg rencontrer: apres avoir ajouter de nouveaux fichiers(console.h/c) , le projet se lance mais semblait ne pas s'executer. La solution etait juste de faire augmenter la valeur de la variavle MEMSIZE dans le makefile. 
 
 ## version4 : introduction d'interruptions (IRQ)
 
@@ -138,7 +139,9 @@ il definit les fonctions essentielles:
     _wait(wait for interrupt): place le processeur dans un état de veille. 
     
 Actuellement on a qu'une seule pile définit dans le fichier versatile.ld qui correspond à la stack SVC.
-On doit en ajouter un autre pour les IRQs: irq_stack_top
+On doit en ajouter un autre pour les IRQs: irq_stack_top. 
+
+==> Mon nouveau console se lance mais n'affiche rien . Ce bugg m'as prix beaucoup de temps pour l'instant et le pire c'est que c'est diffcile de savoir ou ca bloque . 
 
 
 
