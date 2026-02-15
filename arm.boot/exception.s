@@ -40,7 +40,11 @@ irq_handler_addr: .word _isr_handler
 fiq_handler_addr: .word _fiq_handler
 
 _isr_handler:
-    b _isr_handler
+    sub lr, lr, #4             /* @ ajuster LR (pipeline ARM)*/
+    stmfd sp!, {r0-r12, lr}    /* @ sauver contexte */
+    bl irq_handler             /* @ appeler le handler C */
+    ldmfd sp!, {r0-r12, lr}    /* @ restaurer contexte */
+    subs pc, lr, #0            /* @ retour d’IRQ */
 
 _unused_handler:
     b _unused_handler // unused interrupt occurred
@@ -118,3 +122,5 @@ _panic:
 	b _panic
     .size _panic, . - _panic
     .endfunc
+
+

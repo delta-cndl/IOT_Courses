@@ -55,6 +55,7 @@ void irq_disable(uint32_t irq) {
     vic[VICINTCLEAR/4] = (1 << irq);  // clear la ligne
 }
 
+
 void irq_handler() {
     volatile uint32_t *vic = (volatile uint32_t*)VIC_BASE_ADDR;
     uint32_t irq_status = vic[VICIRQSTATUS/4];

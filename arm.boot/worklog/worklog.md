@@ -143,12 +143,8 @@ On doit en ajouter un autre pour les IRQs: irq_stack_top.
 
 ==> Mon nouveau console se lance mais n'affiche rien . Ce bugg m'as prix beaucoup de temps pour l'instant et le pire c'est que c'est diffcile de savoir ou ca bloque . 
 
+==> Solution : Le problème venait du handler d’interruption assembleur ,Le vecteur IRQ pointait vers _isr_handler, qui elle , pointe vers elle meme. l’IRQ était bien déclenchée, mais le code C irq_handler() n’était jamais appelé.
+Donc aucun callback UART n’était exécuté. Donc On a Modifier _isr_handler pour appeler le handler C irq_handler(), au lieu de boucler.
 
 
-        
-
-
-
-
-
-
+## version

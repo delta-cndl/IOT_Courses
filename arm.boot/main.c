@@ -108,26 +108,48 @@ void wait(){
 /* ## version4: introduction des interruptions(IRQ)             */
 /* ------------------------------------------------------------ */
 
+// void uart_callback(uint32_t irq, void* cookie) {
+//     uint8_t c;
+//     if (uart_receive(UART0, &c)){
+//         uart_send(UART0, ' ');
+//         console_echo(c);
+//     }
+         
+// }
+// void _start() {
+//     uart_send_string(UART0, "\n Started Console\n");
+//     irqs_setup();
+//     uart_enable_rx_interrupt(UART0); 
+//     irq_enable(UART0_IRQ, uart_callback, NULL);
+//     irqs_enable();
+
+//     while (1)
+//         wfi(); // CPU wqiting 
+// }
+
+
+/* ------------------------------------------------------------ */
+/* ## version4: introduction des interruptions(IRQ)             */
+/* ------------------------------------------------------------ */
+
+
 void uart_callback(uint32_t irq, void* cookie) {
     uint8_t c;
     if (uart_receive(UART0, &c)){
-        uart_send(UART0, '#');
+        uart_send(UART0, ' ');
         console_echo(c);
     }
          
 }
-
 void _start() {
     uart_send_string(UART0, "\n Started Console\n");
     irqs_setup();
+    uart_enable_rx_interrupt(UART0); 
     irq_enable(UART0_IRQ, uart_callback, NULL);
     irqs_enable();
 
     while (1)
-        wfi(); // CPU attend un caractère
+        wfi(); // CPU wqiting 
 }
-
-
-
 
 

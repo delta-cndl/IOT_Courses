@@ -88,4 +88,6 @@ void irq_enable(uint32_t irq,void(*callback)(uint32_t,void*),void*cookie);
  */
 void irq_disable(uint32_t irq);
 
+void irq_handler();
+
 #endif /* ISR_H_ */
