@@ -48,7 +48,7 @@ Le programme utilise des fonctions de bas niveau pour interagir avec l’UART:
  uart_send() : permet de renvoyer les caractéres tapés vers l’UART
  ex: uart_receive(uart, &c) : lit un octet depuis UART0 et stocke la valeur dans c. Elle retourne 0 s'il n’y a aucun octet disponible. 
 
- A ce niveau , notre programme ne s'arrete jamais ,  le CPU est utilisé en permanence, ce qui est inefficace et gaspille des ressources.
+ A ce niveau , notre programme ne s'arrete jamais ,  le CPU est utilisé en permanence, ce qui est inefficace et gaspille des ressources.    
 
 ## version2: UART en polling et affichage des codes ASCII
 
@@ -147,4 +147,10 @@ On doit en ajouter un autre pour les IRQs: irq_stack_top.
 Donc aucun callback UART n’était exécuté. Donc On a Modifier _isr_handler pour appeler le handler C irq_handler(), au lieu de boucler.
 
 
-## version
+## version5 
+
+Le timer doit être configuré pour déclencher une interruption toutes les millisecondes.
+
+debugger avec tx , niveau 1 par defaut . 
+
+ne pas allumer les fifos  en transmission

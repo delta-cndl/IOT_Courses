@@ -1,0 +1,29 @@
+#### Le projet se trouve dans le dossier ####
+
+## Structure du dépôt
+
+Ce dépôt contient deux branches principales :
+
+main :
+Branche stable contenant la version fonctionnelle du projet.
+C’est cette branche que vous devez cloner pour tester le projet.
+
+dev :
+Branche de développement contenant les versions intermédiaires, expérimentations et travaux en cours.
+
+
+## Tester le projet
+
+Le projet se trouve dans le dossier :arm.boot
+- compiler le projet avec : make
+- lancer l'execution avec : make run 
+Si toutes les dépendances sont correctement installées (arm-none-eabi, qemu-system-arm, etc.), le projet devrait s’exécuter sans problème. 
+
+## Worklog 
+
+Tout le travail realisé est documenté dans le fichier worklog/worklog.md. 
+Ce fichier contient : 
+- Les différentes étapes du projet 
+- Les problèmes rencontrés 
+- Les solutions mises en place 
+- L’évolution progressive du système 

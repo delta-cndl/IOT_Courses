@@ -1,5 +1,7 @@
 #include "main.h"
 #include "uart.h"
+#include "ringbuffer.h"
+#include "isr.h"
 
 /**
  * PL011_T UART
@@ -29,6 +31,10 @@
 #define UART_TXFF (1<<5)
 #define UART_RXFE (1<<4)
 #define UART_BUSY (1<<3)
+
+#define UART_IMSC   0x038
+#define UART_IMSC_RX (1 << 4)   // RX interrupt enable
+#define UART_IMSC_TX (1 << 5) // new
 
 
 /*
@@ -66,13 +72,42 @@ void uart_send_string(void* uart, const unsigned char *s) {
   }
 }
 
-#define UART_IMSC   0x038
-#define UART_IMSC_RX (1 << 4)   // RX interrupt enable
+void uart_rx_callback(uint32_t irq, void* cookie) {
+    void* uart = cookie;
+    uint8_t c;
 
-void uart_enable_rx_interrupt(void* uart) {
+    if (uart_receive(uart, &c)) {
+        rb_put(&rx_buffer, c);
+    }
+}
+
+// void uart_enable_rx_interrupt(void* uart) {
+//     volatile uint32_t* base = (volatile uint32_t*)uart;
+//     base[UART_IMSC / 4] |= UART_IMSC_RX;
+// }
+
+
+
+// void uart_tx_callback(uint32_t irq, void* cookie) {
+//     if (!rb_empty(&tx_buffer)) {
+//         uart_send(UART0, rb_get(&tx_buffer));
+//     } else {
+//         uart_enable_tx_interrupt(UART0);
+//     }
+// }
+
+
+void uart_init(void* uart) {
+
+    // Init buffers
+    rb_init(&rx_buffer);
+    rb_init(&tx_buffer);
+
+    // Enregistrer callback RX
+    irq_enable(UART0_IRQ, uart_rx_callback, uart);
+
+    // Activer interruption RX dans l’UART
     volatile uint32_t* base = (volatile uint32_t*)uart;
     base[UART_IMSC / 4] |= UART_IMSC_RX;
 }
-
-
 

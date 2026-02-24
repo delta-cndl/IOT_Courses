@@ -2,6 +2,7 @@
 #define _UART_H_ 
 
 #include <stdint.h>
+#include "ringbuffer.h"
 
 /**
  * Look at the document describing the Versatile Application Board:
@@ -18,6 +19,13 @@
 #define UART0 (void*)0x101f1000
 #define UART1 (void*)0x101f2000
 #define UART2 (void*)0x101f3000
+
+
+
+static ringbuffer_t rx_buffer;
+static ringbuffer_t tx_buffer;
+
+
 
 /*
  * Receive a byte from the given uart, this is a non-blocking call.
@@ -43,5 +51,9 @@ void uart_send_string(void* uart, const unsigned char *s);
 //void uart_enable_rx_interrupt(uint32_t uart);
 
 void uart_enable_rx_interrupt(void* uart);
+
+void uart_rx_callback(uint32_t irq, void* cookie);
+
+void uart_init(void* uart) ;
 
 #endif /* _UART_H_ */

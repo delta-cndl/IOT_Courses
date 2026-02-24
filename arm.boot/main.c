@@ -4,6 +4,11 @@
 #include "kprintf.h"
 #include "isr.h"
 
+#include "timer.h"
+#include "ringbuffer.h"
+
+
+
 
 /*
  * Define ECHO_ZZZ to have a periodic reminder that this code is polling
@@ -133,23 +138,59 @@ void wait(){
 /* ------------------------------------------------------------ */
 
 
-void uart_callback(uint32_t irq, void* cookie) {
-    uint8_t c;
-    if (uart_receive(UART0, &c)){
-        uart_send(UART0, ' ');
-        console_echo(c);
-    }
+// void uart_callback(uint32_t irq, void* cookie) {
+//     uint8_t c;
+//     if (uart_receive(UART0, &c)){
+//         uart_send(UART0, ' ');
+//         console_echo(c);
+//     }
          
-}
+// }
+// void _start() {
+//     uart_send_string(UART0, "\n Started Console\n");
+//     irqs_setup();
+//     uart_enable_rx_interrupt(UART0); 
+//     irq_enable(UART0_IRQ, uart_callback, NULL);
+//     irqs_enable();
+
+//     while (1)
+//         wfi(); // CPU wqiting 
+// }
+
+/* ------------------------------------------------------------ */
+/* ## version5: interruptions(IRQ)     TIMER        */
+/* ------------------------------------------------------------ */
+
+
+extern ringbuffer_t rx_buffer;   // défini dans uart.c
+
 void _start() {
-    uart_send_string(UART0, "\n Started Console\n");
+
+    // Message de debug (UART1 bloquant)
+    uart_send_string(UART1, "\nStarted Console (IRQ mode)\n");
+
+    // Initialisation du système d'interruptions
     irqs_setup();
-    uart_enable_rx_interrupt(UART0); 
-    irq_enable(UART0_IRQ, uart_callback, NULL);
+
+
+    uart_init(UART0);      // UART0 en mode interruption + buffers
+    timer_init(1000);      // Timer 1ms
+
+    // Activation globale des IRQ CPU
     irqs_enable();
 
-    while (1)
-        wfi(); // CPU wqiting 
+    //  Boucle  événementielle 
+    while (1) {
+
+        while (!rb_empty(&rx_buffer)) {
+            char c = rb_get(&rx_buffer);
+            console_echo(c);  
+        }
+
+        // Ici on pourra ajouter :
+        // - gestion timeout
+        // - tâches périodiques
+        // - scheduler futur
+        wfi();
+    }
 }
-
-

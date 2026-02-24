@@ -9,10 +9,10 @@ BOARD=versatile
 
 # Number of KB to be used, try first with 16,
 # later on, you will need more, but less than 1024.
-MEMSIZE=256
+MEMSIZE=512
 
 # Object files to build and link together
-objs = exception.o startup.o main.o uart.o kprintf.o console.o irq.o isr.o
+objs = exception.o startup.o main.o uart.o kprintf.o console.o irq.o isr.o timer.o ringbuffer.o 
 
 
 #======================================================================
