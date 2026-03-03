@@ -20,7 +20,7 @@ Assuming that you launched QEMU already, with the gdb-server accepting on port 1
     $ gdb-multiarch kernel.elf
     ...
     (gdb) target remote localhost:1234
-    Remote debugging using :1234
+    Remote debugging using :1234    
     ?? () at exception.s:24
     24	     ldr pc, reset_handler_addr
     (gdb) 

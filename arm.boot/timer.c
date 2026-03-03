@@ -36,16 +36,21 @@ void print_time(void) {
 
     // Convertit minutes et secondes en ASCII
     char buf[32];
+    uint32_t ev = event_get_count();
+
     buf[0] = '0' + (min / 10);
     buf[1] = '0' + (min % 10);
     buf[2] = ':';
     buf[3] = '0' + (sec / 10);
     buf[4] = '0' + (sec % 10);
-    buf[5] = ' ';  // espace
-    buf[6] = '%';  // CPU usage
-    buf[7] = ' ';  // espace
-    buf[8] = 'E';  // Events count placeholder
-    buf[9] = '\0';
+    buf[5] = ' ';
+    buf[6] = 'E';
+    buf[7] = '=';
+
+    // afficher seulement 2 digits pour rester simple
+    buf[8] = '0' + ((ev / 10) % 10);
+    buf[9] = '0' + (ev % 10);
+    buf[10] = '\0';
 
     uart_send_string(UART0, "\r\x1b[k"); // pour ecrire sur la meme ligne
     uart_send_string(UART0, buf);

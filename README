@@ -9,6 +9,8 @@ C’est cette branche que vous devez cloner pour tester le projet.
 
 dev :
 Branche de développement contenant les versions intermédiaires, expérimentations et travaux en cours.
+Cloner aussi aprés cette branche pour tester mon avancement , j'ai décrit les problémes rencontrés sur le fichier worklog.md . 
+La version6 :  Timer + UART RX/TX  + event  y est dedans.  
 
 
 ## Tester le projet

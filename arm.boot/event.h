@@ -12,4 +12,6 @@ typedef enum {
 void event_post(event_type_t type);
 event_type_t event_get(void);
 
+uint32_t event_get_count(void);
+
 #endif

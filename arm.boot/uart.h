@@ -2,6 +2,7 @@
 #define _UART_H_ 
 
 #include <stdint.h>
+#include "ringbuffer.h"
 
 /**
  * Look at the document describing the Versatile Application Board:

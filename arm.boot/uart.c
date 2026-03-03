@@ -34,6 +34,10 @@
 #define UART_RXFE (1<<4)
 #define UART_BUSY (1<<3)
 
+#define UART_IMSC   0x038
+#define UART_IMSC_RX (1 << 4)   // RX interrupt enable
+#define UART_IMSC_TX (1 << 5) // new
+
 
 
 
@@ -206,6 +210,4 @@ uint8_t uart_get_char(void) {
 
     return c;
 }
-
-
 

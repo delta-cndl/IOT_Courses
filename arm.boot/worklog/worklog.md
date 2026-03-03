@@ -48,7 +48,7 @@ Le programme utilise des fonctions de bas niveau pour interagir avec l’UART:
  uart_send() : permet de renvoyer les caractéres tapés vers l’UART
  ex: uart_receive(uart, &c) : lit un octet depuis UART0 et stocke la valeur dans c. Elle retourne 0 s'il n’y a aucun octet disponible. 
 
- A ce niveau , notre programme ne s'arrete jamais ,  le CPU est utilisé en permanence, ce qui est inefficace et gaspille des ressources.
+ A ce niveau , notre programme ne s'arrete jamais ,  le CPU est utilisé en permanence, ce qui est inefficace et gaspille des ressources.    
 
 ## version2: UART en polling et affichage des codes ASCII
 
@@ -175,5 +175,5 @@ Dans le timer_callback, on met à jour cette variable toutes les 1 seconde, puis
 
 ## version6  :  Timer + UART RX/TX  + event 
 
-
-
+Suite au problémes rencontres avec lla gestion de l'IRQ TX , j’ai choisi d’introduire un système d’événements simple afin de clarifier l’architecture.Donc j'ai juste mis 
+Une petite file d’événements (event.c) avec les fonctions event_post() et event_get() 

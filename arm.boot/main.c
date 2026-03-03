@@ -7,6 +7,11 @@
 #include "ringbuffer.h"
 #include "event.h"
 
+#include "timer.h"
+#include "ringbuffer.h"
+
+
+
 
 /*
  * Define ECHO_ZZZ to have a periodic reminder that this code is polling
@@ -161,7 +166,11 @@ void wait(){
 /* ------------------------------------------------------------ */
 
 void _start() {
-    uart_send_string(UART0, "\n Started Console\n");
+
+    // Message de debug (UART1 bloquant)
+    uart_send_string(UART1, "\nStarted Console (IRQ mode)\n");
+
+    // Initialisation du système d'interruptions
     irqs_setup();
     uart_init(UART0);
     timer_init(TIMER0);

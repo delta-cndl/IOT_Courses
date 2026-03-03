@@ -6,6 +6,8 @@ static volatile event_type_t queue[EVENT_QUEUE_SIZE];
 static volatile int head = 0;
 static volatile int tail = 0;
 
+static volatile uint32_t event_count = 0;
+
 void event_post(event_type_t type)
 {
     int next = (head + 1) % EVENT_QUEUE_SIZE;
@@ -26,5 +28,12 @@ event_type_t event_get(void)
 
     event_type_t type = queue[tail];
     tail = (tail + 1) % EVENT_QUEUE_SIZE;
+
+    event_count ++;
     return type;
+}
+
+uint32_t event_get_count(void)
+{
+    return event_count;
 }
