@@ -12,9 +12,8 @@ BOARD=versatile
 MEMSIZE=256
 
 # Object files to build and link together
-objs = exception.o startup.o main.o uart.o kprintf.o console.o irq.o isr.o
-
-objs = exception.o startup.o main.o uart.o kprintf.o console.o irq.o isr.o
+objs = exception.o startup.o main.o uart.o kprintf.o console.o irq.o isr.o timer.o ringbuffer.o event.o
+#objs = exception.o startup.o main.o uart.o kprintf.o console.o irq.o isr.o timer.o 
 
 
 #======================================================================

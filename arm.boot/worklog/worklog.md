@@ -141,10 +141,39 @@ il definit les fonctions essentielles:
 Actuellement on a qu'une seule pile définit dans le fichier versatile.ld qui correspond à la stack SVC.
 On doit en ajouter un autre pour les IRQs: irq_stack_top. 
 
-==> Mon nouveau console se lance mais n'affiche rien . Ce bugg m'as prix beaucoup de temps pour l'instant et le pire c'est que c'est diffcile de savoir ou ca bloque . 
+==> Mon nouveau console se lance mais n'affiche rien . Ce bugg m'a prix beaucoup de temps pour l'instant et le pire c'est que c'est diffcile de savoir ou ca bloque . 
 
 ==> Solution : Le problème venait du handler d’interruption assembleur ,Le vecteur IRQ pointait vers _isr_handler, qui elle , pointe vers elle meme. l’IRQ était bien déclenchée, mais le code C irq_handler() n’était jamais appelé.
 Donc aucun callback UART n’était exécuté. Donc On a Modifier _isr_handler pour appeler le handler C irq_handler(), au lieu de boucler.
 
 
-## version
+## version5 : Timer + UART RX/TX
+
+
+Dans cette version ,  on passe d’un driver UART simple (bloquant) à un driver UART avec interruptions (asynchrone)
+
+uart tx = transmit =uart_send() --> attend que  le FIFO soit libre
+uart rx = reception= uart_receive() --> attend un caractere 
+
+Donc le CPU pouvait rester bloqué.
+
+On a ensuite  activé les interruptions (TX et RX) , cela permet de rendre l'UART asynchrone.
+
+Pour cela, on a créé le fichier ringbuffer.c, qui contient deux buffers circulaires :
+- rx_buffer : stocke les caractères lus depuis le registre matériel. 
+- tx_buffer : contient les caractères à envoyer, et l’IRQ TX se charge de le vider 
+
+-- mise en place du timer.
+
+On a defini le fichier timer.c 
+Notre choix a été d’utiliser une variable globale statique time_elapsed, qui correspond au temps écoulé.
+
+Dans le timer_callback, on met à jour cette variable toutes les 1 seconde, puis on appelle une fonction print_time() qui affiche le temps sous un certain format. 
+
+==> Probléme: À ce niveau, nous rencontrons un problème. Pour voir les touches tapées, il faut taper rapidement juste après le lancement de la console. Dès que le timer démarre, plus rien ne s’affiche. Je pense que cela est dû à un blocage lié à la gestion de l’IRQ TX, mais j'arrive pas à fixer le probléme.
+
+
+## version6  :  Timer + UART RX/TX  + event 
+
+
+

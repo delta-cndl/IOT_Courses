@@ -79,7 +79,8 @@ void console_echo(uint8_t byte) {
     if (line_len > 0) {
       line_len--;
       cursor_left();
-      uart_send(UART0, ' ');
+     // uart_send(UART0, ' ');
+      uart_putc(UART0,' ');
       cursor_left();
     }
     return;
@@ -87,8 +88,10 @@ void console_echo(uint8_t byte) {
 
   /* Enter */
   if (byte == '\r' || byte == '\n') {
-    uart_send(UART0, '\r');
-    uart_send(UART0, '\n');
+    //uart_send(UART0, '\r');
+       uart_putc(UART0,'\r');
+    //uart_send(UART0, '\n')
+       uart_putc(UART0,'\n');;
     line_buffer[line_len] = '\0';
     if (line_callback)
       line_callback(line_buffer);
@@ -100,7 +103,8 @@ void console_echo(uint8_t byte) {
   if (byte >= 32 && byte <= 126) {
     if (line_len < (int)(sizeof(line_buffer) - 1)) {
       line_buffer[line_len++] = byte;
-      uart_send(UART0, byte);
+      //uart_send(UART0, byte);
+      uart_putc(UART0,byte);
     }
   }
 

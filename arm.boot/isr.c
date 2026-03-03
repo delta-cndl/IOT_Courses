@@ -68,8 +68,6 @@ void irq_handler() {
         }
     }
 
-    // (optionnel) clear all handled IRQs
-    // vic[VICINTCLEAR/4] = irq_status;
 }
 
 

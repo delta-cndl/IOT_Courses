@@ -3,6 +3,9 @@
 #include "console.h"
 #include "kprintf.h"
 #include "isr.h"
+#include "timer.h"
+#include "ringbuffer.h"
+#include "event.h"
 
 
 /*
@@ -129,27 +132,59 @@ void wait(){
 
 
 /* ------------------------------------------------------------ */
-/* ## version4: introduction des interruptions(IRQ)             */
+/* ## version5 :  Timer + UART RX/TX                     */
 /* ------------------------------------------------------------ */
 
 
-void uart_callback(uint32_t irq, void* cookie) {
-    uint8_t c;
-    if (uart_receive(UART0, &c)){
-        uart_send(UART0, ' ');
-        console_echo(c);
-    }
-         
-}
+// void uart_callback(uint32_t irq, void* cookie) {
+//     if (uart_rx_available()) {
+//         uint8_t c = uart_get_char();
+//         console_echo(c);
+//     }
+// }
+
+// void _start() {
+//     uart_send_string(UART0, "\n Started Console\n");
+//     irqs_setup();
+//     uart_init(UART0);
+//     timer_init(TIMER0);
+//     irqs_enable();
+
+//     while (1) {
+//         process_ring();
+//      }
+
+// }
+
+/* ------------------------------------------------------------ */
+/* ## version6  :  Timer + UART RX/TX  + event                   */
+/* ------------------------------------------------------------ */
+
 void _start() {
     uart_send_string(UART0, "\n Started Console\n");
     irqs_setup();
-    uart_enable_rx_interrupt(UART0); 
-    irq_enable(UART0_IRQ, uart_callback, NULL);
+    uart_init(UART0);
+    timer_init(TIMER0);
     irqs_enable();
 
-    while (1)
-        wfi(); // CPU wqiting 
+while (1) {
+
+    event_type_t ev = event_get();
+
+    if (ev != EVENT_NONE) {
+        uart_putc(UART0, 'E');   // debug simple
+    }
+    switch (ev) {
+        case EVENT_TIMER:
+            //print_time();
+             uart_putc(UART0, 'T');   
+            break;
+        case EVENT_UART_RX:
+            process_ring();
+            break;
+
+        default:
+            break;
+    }
 }
-
-
+}

@@ -3,10 +3,18 @@
 
 #include <stdint.h>
 
-uint32_t __aeabi_uidiv(uint32_t n, uint32_t d);
-void timer_init(uint32_t frequency_hz);
-void timer_clear_interrupt(void);
-uint32_t timer_get_time(void);
+#define TIMER0 ((void*)0x101E2000)
+#define TIMER1 ((void*)0x101E2020)
+#define TIMER2 ((void*)0x101E3000)
+#define TIMER3 ((void*)0x101E3020)
+
+void timer_init(void* timer_base);
+
+void print_time(void);
+
+uint32_t get_timeElapsed(void);
+
+void timer_callback(uint32_t irq, void* cookie);
 
 
 #endif
